@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+
+td {
+	padding: 3px;
+}
+
+input {
+	border: 1px solid #939393;
+}
+
+#td_submit {
+	text-align: center;
+	padding-top: 10px;
+}
+
+span.red {
+	color: #FF0000;
+}
+
+a {
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+
+a#trang_chu {
+	padding-left: 3px;
+}

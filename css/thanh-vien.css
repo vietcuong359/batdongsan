@@ -1,0 +1,281 @@
+@CHARSET "UTF-8";
+
+html {
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif; 
+	width: 1000px;
+	margin: 0px auto;
+	//border: 1px solid blue;
+	font-size: 100%;
+}
+body {
+	margin: 0;
+	
+}
+
+#container {
+	height: 600px;
+}
+#menu {
+	height: 610px; 
+	width: 167px;
+	float: left;
+	border: 1px solid #B8B8B8;
+}
+
+#content { 
+	min-height: 2000px;  
+	width: 797px;
+	min-width: 700px;
+	float: right;
+	padding: 3px 10px 3px 10px;
+	border: 1px solid #B8B8B8;
+	overflow: hidden;
+}
+
+a {
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+p {
+	margin: 0px 0px 5px 0px;
+	padding: 0px;
+}
+div.clear {
+	clear: both;
+}
+
+div.selected {
+	background-color: #EEEEEE;
+	color: #5D5D5D;
+	padding: 5px 5px 5px 10px;
+}
+span.selected {
+	color: #B80000; 
+}
+
+
+div.menu_group {
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+
+td {
+	padding: 5px 3px 3px 3px;
+}
+
+input.regular {
+	border: 1px solid #939393;
+}
+
+span.bold {
+	font-weight: bold;
+}
+#td_submit {
+	text-align: center;
+	padding-top: 10px;
+}
+
+
+a#thanh_vien, a#thoat {
+	margin-left: 7px;
+	float:right;
+}
+
+div#chon{
+	width: 200px;
+	margin: 0px auto;
+}
+div#chon1 {
+	text-align: center;
+}
+div#chon2 {
+	padding-left: 40px;
+	
+}
+
+span.blue {
+	color: #0000FF;
+}
+
+h2 {
+	text-align: center;
+}
+
+#dang_tin {
+	margin-left: 40px;
+	text-align: left;
+}
+
+td.text {
+	width: 150px;
+}
+
+
+#table1 select, #table2 select {
+	width: 200px;
+}
+
+#select_don_vi {
+	//width: 100px;
+}
+
+table{
+	margin-left: 40px;
+}
+
+#tieu_de, #noi_dung {
+	width: 450px;
+}
+
+#td_nd {
+	vertical-align: top;
+}
+
+table span.selected {
+	margin-left: 10px;
+}
+
+span.indent {
+	margin-left: 40px;
+}
+
+span.selected2 {
+	color: #B80000; 
+}
+input#so_nha {
+	width: 195px;
+}
+
+#table3 select {
+	width: 100px;
+}
+
+#table5 select {
+	width: 150px;
+}
+#table5 input {
+	width: 145px;
+}
+#table7, #table8, #table9 {
+	float: left;
+	
+}
+#table10 input{
+	width: 200px;
+}
+
+#span_gia, #span_dt {
+	
+	color: #B80000;
+}
+
+#div_submit {
+	margin-top: 15px;
+	margin-left: 50px;
+}
+
+#but_luu_tin {
+	margin-right: 15px;
+}
+
+
+.lb_nhu_cau{
+	margin-right: 10px;
+}
+
+div#googleMap {
+	margin-left: 45px;
+	width: 700px;
+	height: 500px;
+}
+
+#div_map {
+	width: 230px;
+	height: 140px;
+}
+#but_map {
+	margin-top: 5px;
+}
+
+a.link_trang_thai, a.link_trang_thai2{
+	margin: 0px 5px;
+}
+a.selected {
+	text-decoration: none;
+}
+
+
+#select_loai_bds2, #select_tinh_thanh2, #select_quan_huyen2, #select_nhu_cau2 {
+	margin-right: 10px;
+}
+
+#table_quan_ly_tin {
+	margin: 0px auto;
+	padding: 0px;
+	
+}
+
+fieldset {
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+.link_xoa {
+	margin-right: 10px;
+}
+
+#table_result {
+	margin: 0px;
+	position: absolute;
+	width: 100%;
+}
+
+#table_result td {
+	vertical-align: top;
+}
+
+#container2 {
+	width: 750px;
+	margin: 0px auto;
+	position: relative;
+}
+
+#th_tieu_de {
+	width: 300px;
+}
+
+#table_result th {
+	text-align: left;
+	padding-left: 3px;
+}
+
+iframe {
+	border: 0px;
+	height: 75px;
+	width: 500px;
+	margin-left: 40px;
+}
+
+#images_container {
+	margin-left: 40px;
+	margin-right: 40px;
+}
+.div_image {
+float: left;
+margin-right: 30px;
+height: 140px;
+width: 110px;
+text-align: center;
+}
+
+.upload {
+	border: 5px solid #DEDFDE;
+	height: 100px;
+	width: 100px;
+}

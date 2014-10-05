@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+a {
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a#trang_chu {
+	padding-left: 3px;
+}

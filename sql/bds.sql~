@@ -1,0 +1,737 @@
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tinh_thanh`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tinh_thanh` (
+  `ma_tinh_thanh` TINYINT UNSIGNED NOT NULL ,
+  `tinh_thanh` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_tinh_thanh`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Quan_huyen`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Quan_huyen` (
+  `ma_quan_huyen` SMALLINT UNSIGNED NOT NULL ,
+  `quan_huyen` VARCHAR(25) NOT NULL ,
+  `ma_tinh_thanh` TINYINT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`ma_quan_huyen`) ,
+  INDEX `fk_Quan_huyen_Tinh_thanh1_idx` (`ma_tinh_thanh` ASC) ,
+  CONSTRAINT `fk_Quan_huyen_Tinh_thanh1`
+    FOREIGN KEY (`ma_tinh_thanh` )
+    REFERENCES `bds`.`Tinh_thanh` (`ma_tinh_thanh` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Nhu_cau`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Nhu_cau` (
+  `ma_nhu_cau` TINYINT UNSIGNED NOT NULL ,
+  `nhu_cau` VARCHAR(10) NOT NULL ,
+  PRIMARY KEY (`ma_nhu_cau`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Don_vi`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Don_vi` (
+  `ma_don_vi` TINYINT UNSIGNED NOT NULL ,
+  `don_vi` VARCHAR(10) NOT NULL ,
+  PRIMARY KEY (`ma_don_vi`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin` (
+  `ma_tin` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `tieu_de` VARCHAR(50) NOT NULL ,
+  `noi_dung` TEXT NOT NULL ,
+  `thoi_gian_dang` DATETIME NOT NULL ,
+  `ma_tinh_thanh` TINYINT UNSIGNED NOT NULL ,
+  `ma_quan_huyen` SMALLINT UNSIGNED NOT NULL ,
+  `ma_nhu_cau` TINYINT UNSIGNED NOT NULL ,
+  `dien_tich` DOUBLE NOT NULL DEFAULT 0 ,
+  `gia` DOUBLE NOT NULL DEFAULT 0 ,
+  `ma_don_vi` TINYINT UNSIGNED NOT NULL DEFAULT 1 ,
+  PRIMARY KEY (`ma_tin`) ,
+  INDEX `fk_Tin_Quan_huyen1_idx` (`ma_quan_huyen` ASC) ,
+  INDEX `fk_Tin_Nhu cau1_idx` (`ma_nhu_cau` ASC) ,
+  INDEX `fk_Tin_Don_vi1_idx` (`ma_don_vi` ASC) ,
+  INDEX `fk_Tin_Tinh_thanh1` (`ma_tinh_thanh` ASC) ,
+  CONSTRAINT `fk_Tin_Quan_huyen1`
+    FOREIGN KEY (`ma_quan_huyen` )
+    REFERENCES `bds`.`Quan_huyen` (`ma_quan_huyen` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_Nhu cầu1`
+    FOREIGN KEY (`ma_nhu_cau` )
+    REFERENCES `bds`.`Nhu_cau` (`ma_nhu_cau` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_don_vi1`
+    FOREIGN KEY (`ma_don_vi` )
+    REFERENCES `bds`.`Don_vi` (`ma_don_vi` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_Tinh_thanh1`
+    FOREIGN KEY (`ma_tinh_thanh` )
+    REFERENCES `bds`.`Tinh_thanh` (`ma_tinh_thanh` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Phuong_xa`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Phuong_xa` (
+  `ma_phuong_xa` SMALLINT UNSIGNED NOT NULL ,
+  `phuong_xa` VARCHAR(25) NOT NULL ,
+  `ma_quan_huyen` SMALLINT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`ma_phuong_xa`) ,
+  INDEX `fk_Phuong_xa_Quan_huyen1_idx` (`ma_quan_huyen` ASC) ,
+  CONSTRAINT `fk_Phuong_xa_Quan_huyen1`
+    FOREIGN KEY (`ma_quan_huyen` )
+    REFERENCES `bds`.`Quan_huyen` (`ma_quan_huyen` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_Phuong_xa`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_Phuong_xa` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `ma_phuong_xa` SMALLINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_phuong_xa_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  INDEX `fk_Tin_Phuong_xa_Phuong_xa1_idx` (`ma_phuong_xa` ASC) ,
+  CONSTRAINT `fk_Tin_phuong_xa_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_Phuong_xa_Phuong_xa1`
+    FOREIGN KEY (`ma_phuong_xa` )
+    REFERENCES `bds`.`Phuong_xa` (`ma_phuong_xa` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_So_nha_Duong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_So_nha_Duong` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `so_nha_duong` VARCHAR(30) NOT NULL ,
+  INDEX `fk_Tin_So_nha_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_So_nha_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Du_an`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Du_an` (
+  `ma_du_an` MEDIUMINT UNSIGNED NOT NULL ,
+  `ma_tinh_thanh` TINYINT UNSIGNED NOT NULL ,
+  `ma_quan_huyen` SMALLINT UNSIGNED NOT NULL ,
+  `ten_du_an` VARCHAR(30) NOT NULL ,
+  `thong_tin_du_an` TEXT NOT NULL ,
+  PRIMARY KEY (`ma_du_an`) ,
+  INDEX `fk_Du_an_Tinh_thanh1_idx` (`ma_tinh_thanh` ASC) ,
+  INDEX `fk_Du_an_Quan_huyen1_idx` (`ma_quan_huyen` ASC) ,
+  CONSTRAINT `fk_Du_an_Tinh_thanh1`
+    FOREIGN KEY (`ma_tinh_thanh` )
+    REFERENCES `bds`.`Tinh_thanh` (`ma_tinh_thanh` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Du_an_Quan_huyen1`
+    FOREIGN KEY (`ma_quan_huyen` )
+    REFERENCES `bds`.`Quan_huyen` (`ma_quan_huyen` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_Du_an`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_Du_an` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `ma_du_an` MEDIUMINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_Du_an_Tin1_idx` (`ma_tin` ASC) ,
+  INDEX `fk_Tin_Du_an_Du_an1_idx` (`ma_du_an` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_Du_an_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_Du_an_Du_an1`
+    FOREIGN KEY (`ma_du_an` )
+    REFERENCES `bds`.`Du_an` (`ma_du_an` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Vi_tri`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Vi_tri` (
+  `ma_vi_tri` TINYINT UNSIGNED NOT NULL ,
+  `vi_tri` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_vi_tri`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_Vi_Tri`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_Vi_Tri` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `ma_vi_tri` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_Vi_Tri_Vi_tri1_idx` (`ma_vi_tri` ASC) ,
+  INDEX `fk_Tin_Vi_Tri_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_Vi_Tri_Vi_tri1`
+    FOREIGN KEY (`ma_vi_tri` )
+    REFERENCES `bds`.`Vi_tri` (`ma_vi_tri` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_Vi_Tri_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Huong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Huong` (
+  `ma_huong` TINYINT UNSIGNED NOT NULL ,
+  `huong` VARCHAR(10) NOT NULL ,
+  PRIMARY KEY (`ma_huong`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_Huong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_Huong` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `ma_huong` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_Huong_Tin1_idx` (`ma_tin` ASC) ,
+  INDEX `fk_Tin_Huong_Huong1_idx` (`ma_huong` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_Huong_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_Huong_Huong1`
+    FOREIGN KEY (`ma_huong` )
+    REFERENCES `bds`.`Huong` (`ma_huong` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Phap_ly`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Phap_ly` (
+  `ma_phap_ly` TINYINT UNSIGNED NOT NULL ,
+  `phap_ly` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_phap_ly`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_phap_ly`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_phap_ly` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `ma_phap_ly` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_phap_ly_Tin1_idx` (`ma_tin` ASC) ,
+  INDEX `fk_Tin_phap_ly_Phap_ly1_idx` (`ma_phap_ly` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_phap_ly_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_phap_ly_Phap_ly1`
+    FOREIGN KEY (`ma_phap_ly` )
+    REFERENCES `bds`.`Phap_ly` (`ma_phap_ly` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_duong_rong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_duong_rong` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `duong_rong` TINYINT NOT NULL ,
+  INDEX `fk_Tin_duong_rong_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_duong_rong_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_so_tang`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_so_tang` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `so_tang` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_so_tang_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_so_tang_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_so_phong_ngu`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_so_phong_ngu` (
+  `Tin_ma_tin` INT UNSIGNED NOT NULL ,
+  `so_phong_ngu` SMALLINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_so_phong_ngu_Tin1_idx` (`Tin_ma_tin` ASC) ,
+  PRIMARY KEY (`Tin_ma_tin`) ,
+  CONSTRAINT `fk_Tin_so_phong_ngu_Tin1`
+    FOREIGN KEY (`Tin_ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_so_phong_tam_vs`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_so_phong_tam_vs` (
+  `Tin_ma_tin` INT UNSIGNED NOT NULL ,
+  `so_phong_tam` SMALLINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_so_phong_tam_vs_Tin1_idx` (`Tin_ma_tin` ASC) ,
+  PRIMARY KEY (`Tin_ma_tin`) ,
+  CONSTRAINT `fk_Tin_so_phong_tam_vs_Tin1`
+    FOREIGN KEY (`Tin_ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_So_phong_khach`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_So_phong_khach` (
+  `Tin_ma_tin` INT UNSIGNED NOT NULL ,
+  `so_phong_khach` SMALLINT UNSIGNED NOT NULL ,
+  INDEX `fk_So_phong_khach_Tin1_idx` (`Tin_ma_tin` ASC) ,
+  PRIMARY KEY (`Tin_ma_tin`) ,
+  CONSTRAINT `fk_So_phong_khach_Tin1`
+    FOREIGN KEY (`Tin_ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tien_ich`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tien_ich` (
+  `ma_tien_ich` TINYINT UNSIGNED NOT NULL ,
+  `tien_ich` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_tien_ich`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_Tien_ich`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_Tien_ich` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `ma_tien_ich` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Tin_Tien_ich_Tin1_idx` (`ma_tin` ASC) ,
+  INDEX `fk_Tin_Tien_ich_Tien_ich1_idx` (`ma_tien_ich` ASC) ,
+  PRIMARY KEY (`ma_tin`, `ma_tien_ich`) ,
+  CONSTRAINT `fk_Tin_Tien_ich_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Tin_Tien_ich_Tien_ich1`
+    FOREIGN KEY (`ma_tien_ich` )
+    REFERENCES `bds`.`Tien_ich` (`ma_tien_ich` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_no_hau`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_no_hau` (
+  `Tin_ma_tin` INT UNSIGNED NOT NULL ,
+  `no_hau` FLOAT NOT NULL ,
+  INDEX `fk_Tin_no_hau_Tin1_idx` (`Tin_ma_tin` ASC) ,
+  PRIMARY KEY (`Tin_ma_tin`) ,
+  CONSTRAINT `fk_Tin_no_hau_Tin1`
+    FOREIGN KEY (`Tin_ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_chieu_ngang`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_chieu_ngang` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `chieu_ngang` FLOAT NOT NULL ,
+  INDEX `fk_Tin_chieu_ngang_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_chieu_ngang_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_chieu_doc`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_chieu_doc` (
+  `Tin_ma_tin` INT UNSIGNED NOT NULL ,
+  `chieu_doc` FLOAT NOT NULL ,
+  INDEX `fk_Tin_chieu_doc_Tin1_idx` (`Tin_ma_tin` ASC) ,
+  PRIMARY KEY (`Tin_ma_tin`) ,
+  CONSTRAINT `fk_Tin_chieu_doc_Tin1`
+    FOREIGN KEY (`Tin_ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_nguoi_lien_he`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_nguoi_lien_he` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `ten` VARCHAR(30) NOT NULL ,
+  INDEX `fk_table1_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_nguoi_lien_he_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_dien_thoai_ban`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_dien_thoai_ban` (
+  `Tin_ma_tin` INT UNSIGNED NOT NULL ,
+  `so_dien_thoai` VARCHAR(30) NOT NULL ,
+  INDEX `fk_table2_Tin1_idx` (`Tin_ma_tin` ASC) ,
+  PRIMARY KEY (`Tin_ma_tin`) ,
+  CONSTRAINT `fk_Tin_dien_thoai_ban_Tin1`
+    FOREIGN KEY (`Tin_ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_di_dong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_di_dong` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `so_di_dong` VARCHAR(30) NOT NULL ,
+  INDEX `fk_table3_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_di_dong_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Tin_email`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Tin_email` (
+  `ma_tin` INT UNSIGNED NOT NULL ,
+  `tin_email` VARCHAR(30) NOT NULL ,
+  INDEX `fk_table4_Tin1_idx` (`ma_tin` ASC) ,
+  PRIMARY KEY (`ma_tin`) ,
+  CONSTRAINT `fk_Tin_email_Tin1`
+    FOREIGN KEY (`ma_tin` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Loai_nha`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Loai_nha` (
+  `ma_loai_nha` TINYINT UNSIGNED NOT NULL ,
+  `loai_nha` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_loai_nha`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Nha`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Nha` (
+  `ma_nha` INT UNSIGNED NOT NULL ,
+  `ma_loai_nha` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Nha_Tin1_idx` (`ma_nha` ASC) ,
+  PRIMARY KEY (`ma_nha`) ,
+  INDEX `fk_Nha_Loai_nha1_idx` (`ma_loai_nha` ASC) ,
+  CONSTRAINT `fk_Nha_Tin1`
+    FOREIGN KEY (`ma_nha` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Nha_Loai_nha1`
+    FOREIGN KEY (`ma_loai_nha` )
+    REFERENCES `bds`.`Loai_nha` (`ma_loai_nha` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Loai_dat`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Loai_dat` (
+  `ma_loai_dat` TINYINT UNSIGNED NOT NULL ,
+  `loai_dat` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_loai_dat`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Dat`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Dat` (
+  `ma_dat` INT UNSIGNED NOT NULL ,
+  `ma_loai_dat` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Dat_Tin1_idx` (`ma_dat` ASC) ,
+  INDEX `fk_Dat_Loai_dat1_idx` (`ma_loai_dat` ASC) ,
+  PRIMARY KEY (`ma_dat`) ,
+  CONSTRAINT `fk_Dat_Tin1`
+    FOREIGN KEY (`ma_dat` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Dat_Loai_dat1`
+    FOREIGN KEY (`ma_loai_dat` )
+    REFERENCES `bds`.`Loai_dat` (`ma_loai_dat` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Loai_van_phong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Loai_van_phong` (
+  `ma_loai_vp` TINYINT UNSIGNED NOT NULL ,
+  `loai_vp` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_loai_vp`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Van_phong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Van_phong` (
+  `ma_vp` INT UNSIGNED NOT NULL ,
+  `ma_loai_vp` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Van_phong_Tin1_idx` (`ma_vp` ASC) ,
+  INDEX `fk_Van_phong_Loai_van_phong1_idx` (`ma_loai_vp` ASC) ,
+  PRIMARY KEY (`ma_vp`) ,
+  CONSTRAINT `fk_Van_phong_Tin1`
+    FOREIGN KEY (`ma_vp` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Van_phong_Loai_van_phong1`
+    FOREIGN KEY (`ma_loai_vp` )
+    REFERENCES `bds`.`Loai_van_phong` (`ma_loai_vp` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Loai_phong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Loai_phong` (
+  `ma_loai_phong` TINYINT UNSIGNED NOT NULL ,
+  `loai_phong` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_loai_phong`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Phong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Phong` (
+  `ma_phong` INT UNSIGNED NOT NULL ,
+  `ma_loai_phong` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Phong_Tin1_idx` (`ma_phong` ASC) ,
+  INDEX `fk_Phong_Loai_phong1_idx` (`ma_loai_phong` ASC) ,
+  PRIMARY KEY (`ma_phong`) ,
+  CONSTRAINT `fk_Phong_Tin1`
+    FOREIGN KEY (`ma_phong` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Phong_Loai_phong1`
+    FOREIGN KEY (`ma_loai_phong` )
+    REFERENCES `bds`.`Loai_phong` (`ma_loai_phong` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Loai_cua_hang`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Loai_cua_hang` (
+  `ma_loai_ch` TINYINT UNSIGNED NOT NULL ,
+  `loai_ch` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_loai_ch`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Cua_hang`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Cua_hang` (
+  `ma_ch` INT UNSIGNED NOT NULL ,
+  `ma_loai_ch` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Cua_hang_Tin1_idx` (`ma_ch` ASC) ,
+  INDEX `fk_Cua_hang_Loai_cua_hang1_idx` (`ma_loai_ch` ASC) ,
+  PRIMARY KEY (`ma_ch`) ,
+  CONSTRAINT `fk_Cua_hang_Tin1`
+    FOREIGN KEY (`ma_ch` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Cua_hang_Loai_cua_hang1`
+    FOREIGN KEY (`ma_loai_ch` )
+    REFERENCES `bds`.`Loai_cua_hang` (`ma_loai_ch` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Loai_kho_xuong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Loai_kho_xuong` (
+  `ma_loai_kx` TINYINT UNSIGNED NOT NULL ,
+  `oai_kx` VARCHAR(10) NOT NULL ,
+  PRIMARY KEY (`ma_loai_kx`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Kho_xuong`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Kho_xuong` (
+  `ma_kx` INT UNSIGNED NOT NULL ,
+  `ma_loai_kx` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Kho_xuong_Tin1_idx` (`ma_kx` ASC) ,
+  PRIMARY KEY (`ma_kx`) ,
+  INDEX `fk_Kho_xuong_Loai_kho_xuong1_idx` (`ma_loai_kx` ASC) ,
+  CONSTRAINT `fk_Kho_xuong_Tin1`
+    FOREIGN KEY (`ma_kx` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Kho_xuong_Loai_kho_xuong1`
+    FOREIGN KEY (`ma_loai_kx` )
+    REFERENCES `bds`.`Loai_kho_xuong` (`ma_loai_kx` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Loai_khu_du_lich`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Loai_khu_du_lich` (
+  `ma_loai_khu_dl` TINYINT UNSIGNED NOT NULL ,
+  `khu_dl` VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`ma_loai_khu_dl`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bds`.`Khu_du_lich`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bds`.`Khu_du_lich` (
+  `ma_khu_dl` INT UNSIGNED NOT NULL ,
+  `ma_loai_khu_dl` TINYINT UNSIGNED NOT NULL ,
+  INDEX `fk_Khu_du_lich_Loai_khu_du_lich1_idx` (`ma_loai_khu_dl` ASC) ,
+  INDEX `fk_Khu_du_lich_Tin1_idx` (`ma_khu_dl` ASC) ,
+  PRIMARY KEY (`ma_khu_dl`) ,
+  CONSTRAINT `fk_Khu_du_lich_Loai_khu_du_lich1`
+    FOREIGN KEY (`ma_loai_khu_dl` )
+    REFERENCES `bds`.`Loai_khu_du_lich` (`ma_loai_khu_dl` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_Khu_du_lich_Tin1`
+    FOREIGN KEY (`ma_khu_dl` )
+    REFERENCES `bds`.`Tin` (`ma_tin` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+SHOW Engine INNODB STATUS;

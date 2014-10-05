@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+
+html {
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif; 
+	font-size: 100%;
+}
+body {
+	margin-left: 10px;
+}
+
+a {
+	color: #0000FF;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+
+a#trang_chu {
+	padding-left: 3px;
+}
+
+td {
+	padding: 3px;
+}
+
+input {
+	border: 1px solid #939393;
+}
+
+#td_submit {
+	text-align: center;
+	padding-top: 10px;
+}
+#but_submit {
+	margin-right: 10px;
+}
+span.red, span.red2 {
+	color: #FF0000;
+}
+
+td.quen {
+	font-size: 0.9em;
+}
+h2 {
+	text-align: center;
+	
+}
